@@ -27,7 +27,7 @@ const ProductListing = () => {
 
     return (
         <div className="listing-wrapper">
-            <h1>Our Collection</h1>
+            <h1>Our Elite Collection</h1>
 
             <div className="product-grid">
                 {products.map(product => {

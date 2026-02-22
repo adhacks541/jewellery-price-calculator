@@ -136,7 +136,7 @@ const ProductPage = () => {
                     {priceData && (
                         <div className="breakdown">
                             <button
-                                className="breakdown-toggle"
+                                className={`breakdown-toggle ${showBreakdown ? 'open' : ''}`}
                                 onClick={() => setShowBreakdown(!showBreakdown)}
                             >
                                 {showBreakdown ? 'Hide Price Breakdown' : 'View Price Breakdown'}
