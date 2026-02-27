@@ -7,7 +7,7 @@ A full-stack web application designed for calculating real-time jewellery prices
 - **Live Gold Rates:** Fetches real-time gold rates to ensure accurate pricing.
 - **Dynamic Price Calculation:** Calculates jewellery prices instantly as weight, purity, and product types are adjusted.
 - **Product Listing & Details:** Browse various jewellery items and view detailed pricing breakdowns for each product.
-- **Modern UI:** Built with React and styled for an intuitive user experience.
+- **Premium UI:** Built with React and styled with a premium dark glassmorphism aesthetic and modern animations for an intuitive user experience.
 
 ## Tech Stack
 
