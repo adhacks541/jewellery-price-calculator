@@ -1,6 +1,6 @@
 # 💎 Jewellery Price Calculator
 
-A full-stack web application for calculating real-time jewellery prices based on live gold, silver, and diamond market rates. Built with a React (Vite) frontend and a Node.js/Express backend, it provides an instant, transparent pricing breakdown for each product.
+A full-stack web application for calculating real-time jewellery prices based on live gold, silver, and diamond market rates. Built with a React (Vite) frontend and a Node.js/Express backend, it provides an instant, transparent pricing breakdown for each product — plus a shopping cart to collect your selections.
 
 ---
 
@@ -10,6 +10,8 @@ A full-stack web application for calculating real-time jewellery prices based on
 - **Dynamic Price Calculation** — Instantly breaks down the cost into metal price, making charges, and GST using per-product configurable rates.
 - **Curated Product Catalogue** — Includes gold jewellery (necklaces, chains, earrings, bangles) and diamond pieces (rings, bracelets), each with multiple images and individual making-charge percentages.
 - **Product Details Page** — View full pricing breakdown, select purity/weight variants, and see the final price update in real time.
+- **Shopping Cart** — Add items to a persistent cart (stored in `localStorage`), view a full line-item summary with price breakdowns, and clear the cart at checkout.
+- **Custom React Hook** — `useRates` hook encapsulates the live-rate fetching logic for clean, reusable components.
 - **Premium Dark UI** — React frontend styled with a glassmorphism dark theme, smooth animations, and a responsive grid layout.
 
 ---
@@ -22,6 +24,7 @@ A full-stack web application for calculating real-time jewellery prices based on
 | React 19 (Vite) | UI framework & build tool |
 | React Router v7 | Client-side routing |
 | Axios | HTTP requests |
+| localStorage | Persistent cart storage |
 | CSS (custom) | Glassmorphism dark design system |
 
 ### Backend
@@ -59,6 +62,17 @@ Final Price    = Taxable Amount + GST
 ```
 
 All prices are returned in **INR**.
+
+---
+
+## 🛒 Shopping Cart
+
+Items added from the **Product Details** page are persisted in the browser's `localStorage`. The **Cart** page displays:
+
+- Product image, name, and variant details (weight/purity or carat)
+- Individual item price in INR
+- A **View Breakdown** option to inspect metal price, making charges, and GST
+- Running cart total and a **Checkout** button that clears the cart
 
 ---
 
@@ -158,8 +172,17 @@ jewellery-price-calculator/
 │   └── .env                     # Environment variables (not committed)
 ├── frontend/
 │   ├── src/
-│   │   ├── components/          # React components (ProductListing, etc.)
-│   │   └── ...
+│   │   ├── components/
+│   │   │   ├── ProductListing.jsx  # Product grid / catalogue
+│   │   │   ├── ProductPage.jsx     # Product detail & price calculator
+│   │   │   ├── Calculator.jsx      # Price calculation UI
+│   │   │   ├── ImageGallery.jsx    # Product image carousel
+│   │   │   └── Cart.jsx            # Shopping cart view
+│   │   ├── hooks/
+│   │   │   └── useRates.js         # Custom hook for live rates
+│   │   ├── App.jsx
+│   │   ├── App.css
+│   │   └── main.jsx
 │   └── vite.config.js
 └── README.md
 ```
