@@ -6,7 +6,8 @@ A full-stack web application for calculating real-time jewellery prices based on
 
 ## ✨ Features
 
-- **Live Market Rates** — Fetches up-to-date gold (18K/22K/24K), silver, and diamond prices via an external API, with server-side caching to reduce redundant calls.
+- **Live Market Rates** — Fetches up-to-date gold (18K/22K/24K), silver, and diamond prices via the [GoldAPI](https://www.goldapi.io/) external API, with server-side in-memory caching (20 min TTL) to reduce redundant calls.
+- **Stale-Cache Fallback** — If the live API fails, the backend serves the last known good rates from an infinite-TTL backup cache, ensuring the app never goes blank.
 - **Dynamic Price Calculation** — Instantly breaks down the cost into metal price, making charges, and GST using per-product configurable rates.
 - **Curated Product Catalogue** — Includes gold jewellery (necklaces, chains, earrings, bangles) and diamond pieces (rings, bracelets), each with multiple images and individual making-charge percentages.
 - **Product Details Page** — View full pricing breakdown, select purity/weight variants, and see the final price update in real time.
@@ -31,8 +32,8 @@ A full-stack web application for calculating real-time jewellery prices based on
 | Technology | Purpose |
 |---|---|
 | Node.js + Express | REST API server |
-| node-cache | In-memory rate caching |
-| Axios | Upstream gold-rate API calls |
+| node-cache | In-memory rate caching (20 min TTL + stale fallback) |
+| Axios | Upstream GoldAPI calls |
 | dotenv | Environment configuration |
 
 ---
@@ -80,7 +81,7 @@ Items added from the **Product Details** page are persisted in the browser's `lo
 
 ### Prerequisites
 - **Node.js** v18+ installed
-- A Gold Rate API key (configure in `backend/.env`)
+- A Gold Rate API key from [goldapi.io](https://www.goldapi.io/) (configure in `backend/.env`)
 
 ### 1. Clone the Repository
 ```bash
@@ -115,9 +116,11 @@ Create a `.env` file in the `backend/` directory:
 
 ```env
 PORT=5001
+GOLD_API_URL=https://www.goldapi.io/api
 GOLD_API_KEY=your_api_key_here
-MAKING_CHARGES_PERCENT=10   # Default making charges fallback (%)
-GST_PERCENT=3               # Default GST rate (%)
+DIAMOND_BASE_RATE=65000       # Base price per carat (INR)
+MAKING_CHARGES_PERCENT=10     # Default making charges fallback (%)
+GST_PERCENT=3                 # Default GST rate (%)
 ```
 
 ---
@@ -166,7 +169,7 @@ jewellery-price-calculator/
 │   ├── data/
 │   │   └── products.js          # Product catalogue & config
 │   ├── services/
-│   │   ├── priceService.js      # Live rate fetching & caching
+│   │   ├── priceService.js      # Live rate fetching, caching & stale fallback
 │   │   └── calculationService.js # Price breakdown logic
 │   ├── server.js                # Express app & route definitions
 │   └── .env                     # Environment variables (not committed)
