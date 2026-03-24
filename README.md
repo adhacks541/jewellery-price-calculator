@@ -6,14 +6,15 @@ A full-stack web application for calculating real-time jewellery prices based on
 
 ## ✨ Features
 
-- **Live Market Rates** — Fetches up-to-date gold (18K/22K/24K), silver, and diamond prices via the [GoldAPI](https://www.goldapi.io/) external API, with server-side in-memory caching (20 min TTL) to reduce redundant calls.
-- **Stale-Cache Fallback** — If the live API fails, the backend serves the last known good rates from an infinite-TTL backup cache, ensuring the app never goes blank.
+- **Live Rate Banner** — A top-of-page banner displays today's live 22K gold rate (per gram in INR), fetched automatically on app load.
+- **Live Market Rates** — Fetches up-to-date gold (18K/22K/24K), silver, and diamond prices via [GoldAPI](https://www.goldapi.io/), with server-side in-memory caching (20 min TTL) to minimise redundant API calls.
+- **Stale-Cache Fallback** — If the live API fails, the backend falls back to the last known good rates stored in an infinite-TTL backup cache, ensuring the app keeps working.
 - **Dynamic Price Calculation** — Instantly breaks down the cost into metal price, making charges, and GST using per-product configurable rates.
-- **Curated Product Catalogue** — Includes gold jewellery (necklaces, chains, earrings, bangles) and diamond pieces (rings, bracelets), each with multiple images and individual making-charge percentages.
-- **Product Details Page** — View full pricing breakdown, select purity/weight variants, and see the final price update in real time.
-- **Shopping Cart** — Add items to a persistent cart (stored in `localStorage`), view a full line-item summary with price breakdowns, and clear the cart at checkout.
-- **Custom React Hook** — `useRates` hook encapsulates the live-rate fetching logic for clean, reusable components.
-- **Premium Dark UI** — React frontend styled with a glassmorphism dark theme, smooth animations, and a responsive grid layout.
+- **Curated Product Catalogue** — Includes gold jewellery (necklaces, chains, earrings, bangles) and diamond pieces (rings, bracelets), each with multiple images and individually configured making-charge percentages.
+- **Product Details Page** — View the full pricing breakdown, select purity/weight variants, and watch the final price update in real time.
+- **Shopping Cart** — Add items from the Product Details page to a persistent cart (stored in `localStorage`), view a full line-item summary, and clear it at checkout.
+- **Custom React Hook** — `useRates` encapsulates the live-rate fetching logic for clean, reusable component consumption.
+- **Premium Dark UI** — Glassmorphism dark theme with smooth animations and a responsive grid layout.
 
 ---
 
@@ -32,7 +33,7 @@ A full-stack web application for calculating real-time jewellery prices based on
 | Technology | Purpose |
 |---|---|
 | Node.js + Express | REST API server |
-| node-cache | In-memory rate caching (20 min TTL + stale fallback) |
+| node-cache | In-memory caching (20 min TTL + stale fallback) |
 | Axios | Upstream GoldAPI calls |
 | dotenv | Environment configuration |
 
@@ -43,9 +44,9 @@ A full-stack web application for calculating real-time jewellery prices based on
 | ID | Name | Type | Base Weight | Making Charges |
 |---|---|---|---|---|
 | GOLD-001 | Royal Temple Necklace | Gold 22K | 45 g | 18% |
-| GOLD-002 | Minimalist Gold Chain | Gold 22K/18K | 12 g | 8% |
+| GOLD-002 | Minimalist Gold Chain | Gold 22K / 18K | 12 g | 8% |
 | GOLD-003 | Antique Jhumka Earrings | Gold 22K | 22 g | 15% |
-| GOLD-004 | Hammered Gold Bangles | Gold 22K/18K | 30 g | 12% |
+| GOLD-004 | Hammered Gold Bangles | Gold 22K / 18K | 30 g | 12% |
 | DIAMOND-001 | Solitaire Diamond Ring | Diamond | 0.75 ct | 15% |
 | DIAMOND-002 | Diamond Tennis Bracelet | Diamond | 2.5 ct | 20% |
 
@@ -62,17 +63,17 @@ GST            = Taxable Amount × GST % (3%)
 Final Price    = Taxable Amount + GST
 ```
 
-All prices are returned in **INR**.
+All prices are displayed in **INR**.
 
 ---
 
 ## 🛒 Shopping Cart
 
-Items added from the **Product Details** page are persisted in the browser's `localStorage`. The **Cart** page displays:
+Items added from the **Product Details** page are persisted in the browser's `localStorage`. The **Cart** view displays:
 
-- Product image, name, and variant details (weight/purity or carat)
+- Product image, name, and variant details (weight/purity or carat weight)
 - Individual item price in INR
-- A **View Breakdown** option to inspect metal price, making charges, and GST
+- A **View Breakdown** option showing metal price, making charges, and GST
 - Running cart total and a **Checkout** button that clears the cart
 
 ---
@@ -81,7 +82,7 @@ Items added from the **Product Details** page are persisted in the browser's `lo
 
 ### Prerequisites
 - **Node.js** v18+ installed
-- A Gold Rate API key from [goldapi.io](https://www.goldapi.io/) (configure in `backend/.env`)
+- A Gold Rate API key from [goldapi.io](https://www.goldapi.io/) (needed in `backend/.env`)
 
 ### 1. Clone the Repository
 ```bash
@@ -93,12 +94,12 @@ cd jewellery-price-calculator
 ```bash
 cd backend
 npm install
-# Configure your environment (see Environment Variables below)
+# Add your .env file (see Environment Variables section below)
 npm run dev
 ```
 
 ### 3. Frontend Setup
-Open a new terminal:
+Open a new terminal tab:
 ```bash
 cd frontend
 npm install
@@ -106,13 +107,13 @@ npm run dev
 ```
 
 ### 4. Open the App
-Navigate to `http://localhost:5173/` in your browser.
+Visit `http://localhost:5173/` in your browser.
 
 ---
 
 ## ⚙️ Environment Variables
 
-Create a `.env` file in the `backend/` directory:
+Create a `.env` file inside the `backend/` directory:
 
 ```env
 PORT=5001
@@ -167,12 +168,12 @@ GST_PERCENT=3                 # Default GST rate (%)
 jewellery-price-calculator/
 ├── backend/
 │   ├── data/
-│   │   └── products.js          # Product catalogue & config
+│   │   └── products.js            # Product catalogue & per-product config
 │   ├── services/
-│   │   ├── priceService.js      # Live rate fetching, caching & stale fallback
-│   │   └── calculationService.js # Price breakdown logic
-│   ├── server.js                # Express app & route definitions
-│   └── .env                     # Environment variables (not committed)
+│   │   ├── priceService.js        # Live rate fetching, caching & stale fallback
+│   │   └── calculationService.js  # Price breakdown logic
+│   ├── server.js                  # Express app & route definitions
+│   └── .env                       # Environment variables (not committed)
 ├── frontend/
 │   ├── src/
 │   │   ├── components/
@@ -182,8 +183,8 @@ jewellery-price-calculator/
 │   │   │   ├── ImageGallery.jsx    # Product image carousel
 │   │   │   └── Cart.jsx            # Shopping cart view
 │   │   ├── hooks/
-│   │   │   └── useRates.js         # Custom hook for live rates
-│   │   ├── App.jsx
+│   │   │   └── useRates.js         # Custom hook for live rate fetching
+│   │   ├── App.jsx                 # Root component — router & live rate banner
 │   │   ├── App.css
 │   │   └── main.jsx
 │   └── vite.config.js
