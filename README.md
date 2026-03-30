@@ -1,5 +1,10 @@
 # 💎 Jewellery Price Calculator
 
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white)
+![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
+![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
+
 A full-stack web application for calculating real-time jewellery prices based on live gold, silver, and diamond market rates. Built with a React (Vite) frontend and a Node.js/Express backend, it provides an instant, transparent pricing breakdown for each product — plus a shopping cart to collect your selections.
 
 ---
@@ -190,6 +195,15 @@ jewellery-price-calculator/
 │   └── vite.config.js
 └── README.md
 ```
+
+---
+
+## ✨ Future Enhancements
+
+- **User Authentication** — Allow users to save their shopping cart across devices and view order history.
+- **Payment Gateway Integration** — Seamless checkout experience with Razorpay or Stripe.
+- **Multi-Currency Support** — Real-time currency conversion for international shoppers.
+- **Admin Dashboard** — A secure panel to easily add, edit, or remove products and adjust making charges per product.
 
 ---
 
