@@ -114,6 +114,20 @@ npm run dev
 ### 4. Open the App
 Visit `http://localhost:5173/` in your browser.
 
+### 5. Building for Production
+To build the frontend for production:
+```bash
+cd frontend
+npm run build
+```
+This generates a `dist/` folder containing the compiled assets which can be served using any static host (like Vercel, Netlify, or Nginx).
+
+To run the backend in production mode:
+```bash
+cd backend
+npm start
+```
+
 ---
 
 ## ⚙️ Environment Variables
